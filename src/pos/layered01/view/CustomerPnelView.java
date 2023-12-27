@@ -4,16 +4,23 @@
  */
 package pos.layered01.view;
 
+import javax.swing.JOptionPane;
+import pos.layered01.controller.CustomerController;
+import pos.layered01.dto.CustomerDTO;
+
 /**
  *
  * @author kasun
  */
 public class CustomerPnelView extends javax.swing.JPanel {
 
-    /**
+    private CustomerController customerController;
+
+    /*s
      * Creates new form CustomerView
      */
     public CustomerPnelView() {
+        customerController = new CustomerController();
         initComponents();
     }
 
@@ -289,19 +296,19 @@ public class CustomerPnelView extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void saveButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtActionPerformed
-        
+        addCustomer();
     }//GEN-LAST:event_saveButtActionPerformed
 
     private void updateButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtActionPerformed
-        
+
     }//GEN-LAST:event_updateButtActionPerformed
 
     private void deleteButtActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtActionPerformed
-        
+
     }//GEN-LAST:event_deleteButtActionPerformed
 
     private void customerTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_customerTableMouseClicked
-        
+
     }//GEN-LAST:event_customerTableMouseClicked
 
 
@@ -335,4 +342,28 @@ public class CustomerPnelView extends javax.swing.JPanel {
     private javax.swing.JButton saveButt;
     private javax.swing.JButton updateButt;
     // End of variables declaration//GEN-END:variables
+
+    private void addCustomer() {
+        CustomerDTO customerDTO = new CustomerDTO(custID_Text.getText(),
+                custTitle_Text.getText(), custName_Text.getText(),
+                custDOB_Text.getText(), Double.parseDouble(custSalary_Text.getText()),
+                custAddress_Text.getText(), custCity_Text.getText(), custProvince_Text.getText(),
+                custPostCode_Text.getText());
+
+        String result = customerController.addCustomer(customerDTO);
+        JOptionPane.showMessageDialog(this, result);
+        clear();
+    }
+
+    private void clear() {
+        custID_Text.setText("");
+        custTitle_Text.setText("");
+        custName_Text.setText("");
+        custDOB_Text.setText("");
+        custSalary_Text.setText("");
+        custAddress_Text.setText("");
+        custCity_Text.setText("");
+        custProvince_Text.setText("");
+        custPostCode_Text.setText("");
+    }
 }
