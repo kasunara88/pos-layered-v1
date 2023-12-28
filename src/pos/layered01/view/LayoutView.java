@@ -4,6 +4,9 @@
  */
 package pos.layered01.view;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author kasun
@@ -239,12 +242,16 @@ public class LayoutView extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void loaddCustomerManagePanel() {
-        bodyPanel.removeAll();
-        CustomerPnelView customerPnelView = new CustomerPnelView();
-        customerPnelView.setSize(bodyPanel.getWidth(), bodyPanel.getHeight());
-        bodyPanel.add(customerPnelView);
-        bodyPanel.repaint();
-        bodyPanel.revalidate();
+        try {
+            bodyPanel.removeAll();
+            CustomerPnelView customerPnelView = new CustomerPnelView();
+            customerPnelView.setSize(bodyPanel.getWidth(), bodyPanel.getHeight());
+            bodyPanel.add(customerPnelView);
+            bodyPanel.repaint();
+            bodyPanel.revalidate();
+        } catch (Exception ex) {
+            Logger.getLogger(LayoutView.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
 

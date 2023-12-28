@@ -11,6 +11,6 @@ import pos.layered01.entity.CustomerEntity;
  *
  * @author kasun
  */
-public interface CustomerDAO extends CRUDDao<CustomerEntity, String>{
+public interface CustomerDAO extends CRUDDao<CustomerEntity, String> {
     
 }

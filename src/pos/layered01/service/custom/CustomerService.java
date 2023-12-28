@@ -14,10 +14,10 @@ import pos.layered01.service.SuperService;
  */
 public interface CustomerService extends SuperService{
 
-   String addCustomer(CustomerDTO customerDTO);
-   String updateCustomer(CustomerDTO customerDTO);
-   String deleteCustomer(String id);
-   CustomerDTO getCustomer(String id);
-   ArrayList<CustomerDTO> getAllCustomer(CustomerDTO customerDTO);
-    
+   String addCustomer(CustomerDTO customerDTO) throws Exception;
+   String updateCustomer(CustomerDTO customerDTO)throws Exception;
+   String deleteCustomer(String id)throws Exception;
+   CustomerDTO getCustomer(String id)throws Exception;
+   ArrayList<CustomerDTO> getAllCustomer()throws Exception;
+   
 }

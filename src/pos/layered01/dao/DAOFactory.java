@@ -11,28 +11,31 @@ import pos.layered01.dao.custom.impl.CustomerDAOImpl;
  * @author kasun
  */
 public class DAOFactory {
+
     private static DAOFactory daoFactory;
-    
-    private DAOFactory (){}
-    
-    public static DAOFactory getInsance(){
-        if(daoFactory == null){
+
+    private DAOFactory() {
+    }
+
+    public static DAOFactory getInsance() {
+        if (daoFactory == null) {
             daoFactory = new DAOFactory();
         }
-        
+
         return daoFactory;
     }
-    
-    public SuperDAO getDAO(DAOType type){
+
+    public SuperDAO getDAO(DAOType type) {
         switch (type) {
             case CUSTOMER:
-                new CustomerDAOImpl();
+                return new CustomerDAOImpl();
+
             default:
                 return null;
         }
     }
-    
-    public enum DAOType{
+
+    public enum DAOType {
         CUSTOMER
     }
 }
