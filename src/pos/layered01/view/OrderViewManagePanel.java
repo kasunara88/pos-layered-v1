@@ -4,17 +4,39 @@
  */
 package pos.layered01.view;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import pos.layered01.controller.CustomerController;
+import pos.layered01.controller.ItemController;
+import pos.layered01.controller.OrderController;
+import pos.layered01.dto.CustomerDTO;
+import pos.layered01.dto.ItemDTO;
+import pos.layered01.dto.OrderDTO;
+import pos.layered01.dto.OrderDetailDTO;
+
 /**
  *
  * @author kasun
  */
 public class OrderViewManagePanel extends javax.swing.JPanel {
+    private List<OrderDetailDTO> orderDetailDTOs = new ArrayList<>();
+    CustomerController customerController;
+    ItemController itemController;
+    OrderController orderController;
 
     /**
      * Creates new form OrderViewManagePanel
      */
     public OrderViewManagePanel() {
+        customerController = new CustomerController();
+        itemController = new ItemController();
+        orderController = new OrderController();
         initComponents();
+        laddTable();
     }
 
     /**
@@ -229,11 +251,11 @@ public class OrderViewManagePanel extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void placeOrderButtonupdateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_placeOrderButtonupdateButtonActionPerformed
-       
+        placeOrder();
     }//GEN-LAST:event_placeOrderButtonupdateButtonActionPerformed
 
     private void addItemBttndeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addItemBttndeleteButtonActionPerformed
-        
+        addToTable();
     }//GEN-LAST:event_addItemBttndeleteButtonActionPerformed
 
     private void orderTableitemTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_orderTableitemTableMouseClicked
@@ -241,11 +263,11 @@ public class OrderViewManagePanel extends javax.swing.JPanel {
     }//GEN-LAST:event_orderTableitemTableMouseClicked
 
     private void searchCustdeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchCustdeleteButtonActionPerformed
-        
+        searchCustomer();
     }//GEN-LAST:event_searchCustdeleteButtonActionPerformed
 
     private void searchItemdeleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_searchItemdeleteButtonActionPerformed
-        
+        searchItem();
     }//GEN-LAST:event_searchItemdeleteButtonActionPerformed
 
 
@@ -271,4 +293,86 @@ public class OrderViewManagePanel extends javax.swing.JPanel {
     private javax.swing.JButton searchItem;
     private javax.swing.JLabel searchItemCode;
     // End of variables declaration//GEN-END:variables
+
+    private void laddTable() {
+        String[] column = {"Item Code", "Qty", "Discount"};
+        DefaultTableModel dtm = new DefaultTableModel(column, 0) {
+
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        orderTable.setModel(dtm);
+    }
+
+    private void cleanItemData() {
+        itemCod_Text.setText("");
+        qty_Text.setText("");
+        discount_Text.setText("");
+        searchItemCode.setText("");
+    }
+
+    private void searchCustomer() {
+        try {
+            String custId = customerId_Text.getText();
+            CustomerDTO customerDTO = customerController.getCustomer(custId);
+            if (customerDTO != null) {
+                searchCustIdLebel.setText(customerDTO.getName() + ", " + customerDTO.getAddress());
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Customer Not Found");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(OrderViewManagePanel.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+    }
+
+    private void searchItem() {
+        try {
+            String itemCode = itemCod_Text.getText();
+            ItemDTO itemDTO = itemController.getITem(itemCode);
+            if (itemDTO != null) {
+                searchItemCode.setText(itemDTO.getDescription() + ", " + itemDTO.getUnitprice() + ", " + itemDTO.getQtyOnHand());
+
+            } else {
+                JOptionPane.showMessageDialog(this, "Item Not Found");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(OrderViewManagePanel.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+    }
+
+    private void addToTable() {
+        OrderDetailDTO odm = new OrderDetailDTO(itemCod_Text.getText(),
+                Integer.parseInt(qty_Text.getText()),
+                Double.parseDouble(discount_Text.getText()));
+        orderDetailDTOs.add(odm);
+
+        Object[] rawData = {odm.getItemCode(), odm.getOrderQty(), odm.getDiscount()};
+        DefaultTableModel dtm = (DefaultTableModel) orderTable.getModel();
+        dtm.addRow(rawData);
+        cleanItemData();
+    }
+
+    private void placeOrder() {
+        try {
+            OrderDTO orderDTO = new OrderDTO(orderId_Text.getText(), customerId_Text.getText(), orderDetailDTOs);
+            String result = orderController.placeOrder(orderDTO);
+            JOptionPane.showMessageDialog(this, result);
+        } catch (Exception ex) {
+            Logger.getLogger(OrderViewManagePanel.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+        clearForm();
+    }
+    
+     private void clearForm() {
+        laddTable();
+        orderId_Text.setText("");
+        customerId_Text.setText("");
+        searchCustIdLebel.setText("");
+    }
 }

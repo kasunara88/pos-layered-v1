@@ -4,40 +4,42 @@
  */
 package pos.layered01.service;
 
-import pos.layered01.service.custom.ItemService;
 import pos.layered01.service.custom.customerserviceimpl.CustomerServiceImpl;
 import pos.layered01.service.custom.customerserviceimpl.ItemSrviceImpl;
+import pos.layered01.service.custom.customerserviceimpl.OrderServiceImpl;
 
 /**
  *
  * @author kasun
  */
 public class ServiceFactory {
+
     private static ServiceFactory serviceFactory;
-    
-    private ServiceFactory(){  
+
+    private ServiceFactory() {
     }
-    
-    public static ServiceFactory getInstance(){
-        if(serviceFactory == null){
+
+    public static ServiceFactory getInstance() {
+        if (serviceFactory == null) {
             serviceFactory = new ServiceFactory();
         }
         return serviceFactory;
     }
-    
-    public SuperService getService(ServiceType type){
+
+    public SuperService getService(ServiceType type) {
         switch (type) {
             case CUSTOMER:
-                return new CustomerServiceImpl();    
-                case ITEM:
-                return new ItemSrviceImpl();  
+                return new CustomerServiceImpl();
+            case ITEM:
+                return new ItemSrviceImpl();
+            case ORDER:
+                return new OrderServiceImpl();
             default:
                 return null;
         }
     }
-    
-    public enum ServiceType{
-        CUSTOMER,ITEM
+
+    public enum ServiceType {
+        CUSTOMER, ITEM, ORDER,ORDERDETAIL
     }
-    
 }

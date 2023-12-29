@@ -6,6 +6,8 @@ package pos.layered01.dao;
 
 import pos.layered01.dao.custom.impl.CustomerDAOImpl;
 import pos.layered01.dao.custom.impl.ItemDAOImpl;
+import pos.layered01.dao.custom.impl.OrderDAOImpl;
+import pos.layered01.dao.custom.impl.OrderDetailDAOImpl;
 
 /**
  *
@@ -32,6 +34,10 @@ public class DAOFactory {
                 return new CustomerDAOImpl();
             case ITEM:
                 return new ItemDAOImpl();
+            case ORDER:
+                return new OrderDAOImpl();
+            case ORDERDETAIL:
+                return new OrderDetailDAOImpl();
 
             default:
                 return null;
@@ -39,6 +45,6 @@ public class DAOFactory {
     }
 
     public enum DAOType {
-        CUSTOMER, ITEM
+        CUSTOMER, ITEM, ORDER, ORDERDETAIL
     }
 }
