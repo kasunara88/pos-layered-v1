@@ -3,8 +3,9 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/kasun/Desktop/SoftwareEngineering/Project/IJSE/Layered/pos-layered01/src/pos/layered01/dao/custom/CustomerDAO.java</file>
-            <file>file:/Users/kasun/Desktop/SoftwareEngineering/Project/IJSE/Layered/pos-layered01/src/pos/layered01/service/custom/customerserviceimpl/CustomerServiceImpl.java</file>
+            <file>file:/Users/kasun/Desktop/SoftwareEngineering/Project/IJSE/Layered/pos-layered01/src/pos/layered01/view/CustomerPnelView.java</file>
+            <file>file:/Users/kasun/Desktop/SoftwareEngineering/Project/IJSE/Layered/pos-layered01/src/pos/layered01/view/ItemPanelView.java</file>
+            <file>file:/Users/kasun/Desktop/SoftwareEngineering/Project/IJSE/Layered/pos-layered01/src/pos/layered01/controller/ItemController.java</file>
         </group>
     </open-files>
 </project-private>

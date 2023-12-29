@@ -4,7 +4,9 @@
  */
 package pos.layered01.service;
 
+import pos.layered01.service.custom.ItemService;
 import pos.layered01.service.custom.customerserviceimpl.CustomerServiceImpl;
+import pos.layered01.service.custom.customerserviceimpl.ItemSrviceImpl;
 
 /**
  *
@@ -27,13 +29,15 @@ public class ServiceFactory {
         switch (type) {
             case CUSTOMER:
                 return new CustomerServiceImpl();    
+                case ITEM:
+                return new ItemSrviceImpl();  
             default:
                 return null;
         }
     }
     
     public enum ServiceType{
-        CUSTOMER
+        CUSTOMER,ITEM
     }
     
 }

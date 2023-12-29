@@ -4,17 +4,31 @@
  */
 package pos.layered01.view;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import pos.layered01.controller.ItemController;
+import pos.layered01.dto.CustomerDTO;
+import pos.layered01.dto.ItemDTO;
+
 /**
  *
  * @author kasun
  */
 public class ItemPanelView extends javax.swing.JPanel {
 
+    private ItemController itemController;
+
     /**
      * Creates new form ItemPanelView
      */
     public ItemPanelView() {
+        itemController = new ItemController();
         initComponents();
+        loadAllItem();
     }
 
     /**
@@ -203,15 +217,15 @@ public class ItemPanelView extends javax.swing.JPanel {
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void updateButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_updateButtonActionPerformed
-        
+        updateItem();
     }//GEN-LAST:event_updateButtonActionPerformed
 
     private void deleteButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteButtonActionPerformed
-        
+        deleteItem();
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void itemTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_itemTableMouseClicked
-        
+        searchCustomer();
     }//GEN-LAST:event_itemTableMouseClicked
 
 
@@ -236,6 +250,105 @@ public class ItemPanelView extends javax.swing.JPanel {
     // End of variables declaration//GEN-END:variables
 
     private void saveItem() {
-        
+        try {
+            ItemDTO itemDTO = new ItemDTO(itemCode_Text.getText(),
+                    description_Text.getText(),
+                    packSize_Text.getText(), Double.parseDouble(unitPrize_Text.getText()),
+                    Integer.parseInt(qtyOnHand_Text.getText()));
+
+            String resp = itemController.addItem(itemDTO);
+            JOptionPane.showMessageDialog(this, resp);
+            clear();
+            loadAllItem();
+        } catch (Exception ex) {
+            Logger.getLogger(ItemPanelView.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+
+    }
+
+    private void clear() {
+        itemCode_Text.setText("");
+        description_Text.setText("");
+        packSize_Text.setText("");
+        unitPrize_Text.setText("");
+        qtyOnHand_Text.setText("");
+    }
+
+    private void loadAllItem() {
+
+        try {
+            String[] column = {"Item", "Description", "Pack Size", "Unit Price", "Qty"};
+            DefaultTableModel dtm = new DefaultTableModel(column, 0) {
+
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    return false;
+                }
+            };
+
+            itemTable.setModel(dtm);
+            ArrayList<ItemDTO> item = itemController.getAllItem();
+
+            for (ItemDTO items : item) {
+                Object[] rawData = {items.getItemCode(), items.getDescription(), items.getPacksize(), items.getUnitprice(), items.getQtyOnHand()};
+                dtm.addRow(rawData);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ItemPanelView.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+    }
+
+    private void searchCustomer() {
+
+        try {
+            String itemCode = itemTable.getValueAt(itemTable.getSelectedRow(), 0).toString();
+            ItemDTO itemModel = itemController.getITem(itemCode);
+
+            if (itemModel != null) {
+                itemCode_Text.setText(itemModel.getItemCode());
+                description_Text.setText(itemModel.getDescription());
+                packSize_Text.setText(itemModel.getPacksize());
+                unitPrize_Text.setText(Double.toString(itemModel.getUnitprice()));
+                qtyOnHand_Text.setText(Integer.toString(itemModel.getQtyOnHand()));
+            } else {
+                JOptionPane.showMessageDialog(this, "Item not found");
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(ItemPanelView.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+
+    }
+
+    private void updateItem() {
+        try {
+            ItemDTO itemModel = new ItemDTO(itemCode_Text.getText(),
+                    description_Text.getText(),
+                    packSize_Text.getText(), Double.parseDouble(unitPrize_Text.getText()),
+                    Integer.parseInt(qtyOnHand_Text.getText()));
+
+            String resp = itemController.updateItem(itemModel);
+            JOptionPane.showMessageDialog(this, resp);
+            clear();
+            loadAllItem();
+        } catch (Exception ex) {
+            Logger.getLogger(ItemPanelView.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+    }
+
+    private void deleteItem() {
+        try {
+            String itemCode = itemCode_Text.getText();
+            String resp = itemController.deleteItem(itemCode);
+            JOptionPane.showMessageDialog(this, resp);
+            clear();
+            loadAllItem();
+        } catch (Exception ex) {
+            Logger.getLogger(ItemPanelView.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
     }
 }

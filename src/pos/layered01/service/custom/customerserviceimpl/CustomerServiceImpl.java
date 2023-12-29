@@ -81,26 +81,6 @@ public class CustomerServiceImpl implements CustomerService {
                 entity.getZip());
     }
 
-//    @Override
-//    public ArrayList<CustomerDTO> getAllCustomer(CustomerDTO customerDTO) throws Exception {
-//        ArrayList<CustomerDTO> customerDTOs = new ArrayList<>();
-//        ArrayList<CustomerEntity> customerEntitys = customerDAO.getAll();
-//
-//        for (CustomerEntity entity : customerEntitys) {
-//            CustomerDTO dto = new CustomerDTO(entity.getCustId(),
-//                    entity.getTitle(),
-//                    entity.getName(),
-//                    entity.getDob(),
-//                    entity.getSalary(),
-//                    entity.getAddress(),
-//                    entity.getCity(),
-//                    entity.getProvince(),
-//                    entity.getZip());
-//            customerDTOs.add(dto);
-//        }
-//        return customerDTOs;
-//    }
-
     @Override
     public ArrayList<CustomerDTO> getAllCustomer() throws Exception {
         ArrayList<CustomerDTO> customerDTOs = new ArrayList<>();
